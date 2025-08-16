@@ -1,0 +1,43 @@
+server:
+  port: 9191
+
+spring:
+  application:
+    name: API-GATEWAY
+  zipkin:
+    base-url: http://localhost:9411/
+  cloud:
+    gateway:
+      routes:
+        - id: AUTHENTICATION-SERVICE
+          uri: lb//AUTHENTICATION-SERVICE
+          predicates:
+            - Path=//api/auth/**
+          filters:
+            - name: CircuitBreaker
+              args: AUTHENTICATION-SERVICE
+              fallbackUri: forward:/auth-service-fallback
+
+        - id: RATE-AGGREGATION-SERVICE
+          uri: lb//RATE-AGGREGATION-SERVICE
+          predicates:
+            - Path=/api/rates/**
+          filters:
+            - name: CircuitBreaker
+              args: RATE-AGGREGATION-SERVICE
+              fallbackUri: forward:/currency-service-fallback
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+
