@@ -25,3 +25,32 @@ This project comprises several microservices.
    - **After authentication**:  
      - Once a user signs up and signs in via the Auth Service, they are provisioned with a **JWT token**.  
      - This token is then used to access the Rate Aggregation Service.
+
+
+How to: 
+
+## Signup: 
+    
+    - (POST) http://localhost:8081/api/auth/signup
+     body:
+     {
+    "username": "testuser",
+    "email": "test@example.com",
+    "password": "password123"
+    }
+
+## Signin (to get Auth token)
+
+   - (POST) http://localhost:8081/api/auth/signin
+    body: 
+    {"username": "testuser","password": "password123"}       
+
+## Get Average Rates 
+   (*NB: Rates should be already available when the app starts, just not yet accessible)
+    
+   - (GET) http://localhost:8082/api/rates/average-currency-rates
+
+## Docker Quick Start
+```bash
+docker pull fmagoge/rates-aggregator-service-suite
+docker-compose up -d
