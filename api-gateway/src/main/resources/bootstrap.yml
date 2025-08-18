@@ -1,4 +1,4 @@
-cloud:
-  config:
-    enabled: true
-    uri: http://localhost:9296
+#cloud:
+#  config:
+#    enabled: true
+#    uri: http://localhost:9296

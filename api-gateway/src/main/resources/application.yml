@@ -3,10 +3,11 @@ server:
 
 spring:
   application:
-    name: API-GATEWAY
-  zipkin:
-    base-url: http://localhost:9411/
+    name: API-GATEWAY-
   cloud:
+    config:
+      import-check:
+        enabled: false
     gateway:
       routes:
         - id: AUTHENTICATION-SERVICE
@@ -27,17 +28,21 @@ spring:
               args: RATE-AGGREGATION-SERVICE
               fallbackUri: forward:/currency-service-fallback
 
-hystrix:
-  command:
-    fallbackcmd:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 5000
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: hystrix.stream
+#hystrix:
+#  command:
+#    fallbackcmd:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 5000
+
 
