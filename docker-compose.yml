@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  microservices:
+    build: .
+    image: fmagoge/rates-aggregator-service-suite:latest
+    ports:
+      - "8761:8761"  # service-registry
+      - "9296:9296"  # cloud-config-server
+      - "9191:9191"  # api-gateway
+      - "8081:8081"  # auth-service
+      - "8082:8082"  # rate-aggregate-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      mysql-auth:
+        condition: service_healthy
+      mysql-rate:
+        condition: service_healthy
+
+  mysql-auth:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: authservice
+      MYSQL_ROOT_PASSWORD: password123
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  mysql-rate:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: rateservice
+      MYSQL_ROOT_PASSWORD: password123
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
