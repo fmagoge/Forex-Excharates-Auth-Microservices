@@ -28,6 +28,7 @@ public class CurrencyDataService {
 
     public List<AverageCurrencyRate> getAllAverageCurrencyRates() {
         try {
+            System.out.println("Rates: "+averageCurrencyRateRepository.findAll());
             return averageCurrencyRateRepository.findAll();
         } catch (Exception e) {
             System.err.println("Error retrieving average currency rates: " + e.getMessage());

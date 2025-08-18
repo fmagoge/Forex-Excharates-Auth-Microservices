@@ -1,4 +1,4 @@
-package controller;
+package com.myspringprojects.rate_aggregation_service.controller;
 
 
 import com.myspringprojects.rate_aggregation_service.services.CurrencyDataService;
