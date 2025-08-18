@@ -9,7 +9,7 @@ services:
       - "9296:9296"  # cloud-config-server
       - "9191:9191"  # api-gateway
       - "8081:8081"  # auth-service
-      - "8082:8082"  # rate-aggregate-service
+      - "8082:8082"  # rate-aggregation-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
